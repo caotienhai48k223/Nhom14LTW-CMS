@@ -1,0 +1,19 @@
+<div class="div-post p-4 d-none">
+  <div class="container">
+    <div class="d-flex justify-content-end"><i class="fa-regular fa-circle-xmark"></i></div>
+    <br>
+    <h3 class="text-light" style="text-align: center;">Đăng bài viết lên trang chủ</h3>
+    <form class="form-post container" method="POST">
+      {% csrf_token %}
+      <label for="start_time" class="fw-semibold text-info">Giờ bắt đầu</label>
+      <input type="time" name="start-time" id="start-time" class="form-control">
+      <br><br>
+      <label for="start_time" class="fw-semibold text-info">Giờ kết thúc</label>
+      <input type="time" name="end-time" id="end-time" class="form-control">
+      <br><br>
+      <center><button btn-post type="button" class="btn btn-success">Đăng</button></center>
+    </form>
+  </div>
+</div>
+
+

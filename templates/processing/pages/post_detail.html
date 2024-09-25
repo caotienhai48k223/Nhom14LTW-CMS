@@ -1,0 +1,53 @@
+{% extends '../layouts/default.html' %}
+
+{% block main %}
+{{ post.status }} <br>
+{{ post.title }} <br>
+<img src="{{post.image.url}}"  height="100px" alt="Ảnh bài báo">
+{{ post.body|safe }}
+
+{% if request.user == post.updated_by or request.user.groups.first.name == 'Approver'%}
+{% for req in req_edits %}
+{{req.status}} - {{req.created_at}}<br>
+{{req.content}} <br> <br>
+{% endfor %}
+{% endif %}
+
+<div class="cua d-flex gap-1">
+  {% if post.status == 'Chờ sửa' and post.updated_by == request.user %}
+  <a href="/processing/update-post/{{post.id}}/" class="btn btn-info" title="Chỉnh sửa">Sửa bài viết</a>
+
+  {% elif request.user.groups.first.name == 'Approver' and post.status == 'Chờ duyệt' %}
+  {% include '../partials/form_accpet.html' %}
+  <button class="btn btn-success" btn-accept>Duyệt</button>
+  <form method="POST" form-refuse>
+    {% csrf_token %}
+    <input hidden name="refuse" value="true">
+    <button class="btn btn-danger" type="button" btn-refuse>Từ chối</button>
+  </form>
+
+  {% elif request.user.groups.first.name == 'Approver' and post.status == 'Chờ đăng' %}
+  {% include '../partials/form_post.html' %}
+  <button class="btn btn-success" btn-accept>Đăng</button>
+
+  {% include '../partials/form_request.html' %}
+  <button class="btn btn-warning" btn-request >Sửa lại</button>
+
+  <form form-delete method="POST">
+    {% csrf_token %}
+    <input hidden name="delete" value="true">
+    <button type="button" class="btn btn-danger" btn-delete>Xóa</button>
+  </form>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block js %}
+{% load static %}
+<script src="{% static 'js/processing/post_detail.js' %}" defer></script>
+{% endblock %}
+
+{% block css %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/processing/post_detail.css' %}">
+{% endblock %}

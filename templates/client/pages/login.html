@@ -1,0 +1,23 @@
+{% extends '../layouts/default.html' %}
+
+{% block main %}
+<div class="container">
+  <div class="row">
+    <center>
+      <div class="col-6">
+        <h4>Đăng Nhập</h4>
+        <form action="/login/" method="POST">
+          {% csrf_token %}
+          <div class="mb-3">
+            <input type="text" class="form-control" id="username" name="username" placeholder="Tên Đăng Nhập">
+          </div>
+          <div class="mb-3">
+            <input type="password" class="form-control" id="password" name="password" placeholder="Mật Khẩu">
+          </div>
+          <button type="submit" class="btn btn-dark">Đăng Nhập</button>
+        </form>
+      </div>
+    </center>
+  </div>
+</div>
+{% endblock %}

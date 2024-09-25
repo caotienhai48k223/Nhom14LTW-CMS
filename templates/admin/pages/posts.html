@@ -1,0 +1,12 @@
+{% extends '../layouts/default.html' %}
+
+{% block main %}
+<div class="container">
+  <h1>Tất cả bài viết</h1>
+  {% include '../partials/filter_post.html' %}
+  {% for post in page_obj %}
+    {{post.id}} - {{post.title|truncatechars:40}} - {{post.created_at|date}} - {{post.count_cmt}} - {{post.count_enjoy}}<br>
+  {% endfor %}
+  {% include '../partials/paginator.html' %}
+</div>
+{% endblock %}

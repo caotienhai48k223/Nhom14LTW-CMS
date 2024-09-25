@@ -1,0 +1,43 @@
+{% extends '../layouts/default.html' %}
+
+{% block main %}
+<h1>Danh sách chờ đăng</h1>
+<form form-action-multi method="POST" class="d-flex gap-5" style="align-items: center;">
+  {% csrf_token %}
+  <input type="text" hidden ids name="post-ids">
+  <div>
+    <label for="">Tất cả</label> <br>
+    <input checkbox-all type="checkbox">
+  </div>
+  <div class="d-flex gap-3 d-none" select-time>
+    <div class="d-flex" style="align-items: center;">
+      <label for="start_time" style="width: 150px;">Giờ bắt đầu</label>
+      <input id="start_time" name="start_time" class="form-control" type="time">
+    </div>
+    <div class="d-flex" style="align-items: center;">
+      <label for="end_time" style="width: 150px;">Giờ kết thúc</label>
+      <input id="end_time" name="end_time" class="form-control" type="time">
+    </div>
+  </div>
+  <div class="d-flex gap-2">
+    <select class="form-select" name="action" style="height: 37.6px;">
+      <option selected value="">Chọn hành động</option>
+      <option value="post">Đăng bài</option>
+      <option value="delete">Xóa bài</option>
+    </select>
+    <button btn-confirm type="button" style="width: 135px; height: 37.6px;" class="btn btn-info" >Xác nhận</button>
+  </div>
+</form>
+
+{% for post in posts %}
+<input checkbox value="{{post.id}}" type="checkbox">
+<a href="/processing/post/{{post.id}}/">{{ post.title }}</a><br>
+{{ post.section }} - {{ post.status }}
+{{ post.body|safe }}
+{% endfor %}
+{% endblock %}
+
+{% block js %}
+{% load static %}
+<script src="{% static 'js/processing/confirmation_list.js' %}" defer></script>
+{% endblock %}

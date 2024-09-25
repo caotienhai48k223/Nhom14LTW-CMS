@@ -1,0 +1,12 @@
+{% extends '../layouts/default.html' %}
+
+{% block main %}
+<div class="container">
+  <h1>Tất cả người dùng</h1>
+  {% include '../partials/filter_user.html' %}
+  {% for user in page_obj %}
+    {{user.id}} - {{user.username}} - {{user.profile.nickname}} - {{user.first_name}} - {{user.last_name}} - {{user.count_cmt}} - {{user.count_enjoy}}<br>
+  {% endfor %}
+  {% include '../partials/paginator.html' %}
+</div>
+{% endblock %}

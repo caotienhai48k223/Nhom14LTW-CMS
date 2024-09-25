@@ -1,0 +1,22 @@
+{% extends '../layouts/default.html' %}
+
+{% block main %}
+<div class="container">
+  <div class="row d-flex justify-content-center">
+    <div class="col-8">
+      <h4>Tạo bản nháp bài viết</h4>
+      <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form_cp.as_p }}
+        {{ form_cp.media }}
+        <button type="submit" class="btn btn-dark">Tạo bản nháp</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block js %}
+{% load static %}
+<script src="{% static 'js/processing/form_post.js' %}" defer></script>
+{% endblock %}

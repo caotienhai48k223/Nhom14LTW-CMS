@@ -1,0 +1,20 @@
+.cua {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+}
+
+.div-accept, .div-post, .div-request {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top:0;
+  right: 0;
+  background-color: black;
+}
+
+.fa-circle-xmark {
+  font-size: 20px;
+  cursor: pointer;
+  color: red;
+}

@@ -1,0 +1,12 @@
+{% extends '../layouts/default.html' %}
+
+{% block main %}
+<h1>Welcome to Website</h1>
+<br>
+{% for post in posts %}
+<img style="height: 100px;" src="{{post.image.url}}" alt=""><br>
+{{post.topic}} <br>
+<a href="/post/{{post.user.username}}/{{post.slug}}/">{{post.title}}</a>
+{{post.body|safe}} <br>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends '../layouts/default.html' %}
+
+{% block main %}
+<div class="container"></div>
+  <div class="row d-flex justify-content-center">
+    <div class="col-8">
+      {% if request.user.groups.first.name == 'Contributor' %}
+      <h4>Chỉnh sửa bản nháp</h4>
+      {% else %}
+      <h4>Chỉnh sửa bản nháp</h4>
+      {% endif %}
+      <form action="" form-update method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form_up.as_p }}
+        {{ form_up.media }}
+        <button btn-save type="submit" class="btn btn-dark">Lưu</button>
+        {% if request.user.groups.first.name == 'Contributor' %}
+        <input hidden  name="send" value="">
+        <button type="button" btn-send class="btn btn-success">Gửi bản nháp</button>
+        {% else %}
+        <input hidden name="turnon" value="">
+        <button type="button" btn-turnon class="btn btn-success">Gửi bài viết</button>
+        {% endif %}
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block js %}
+{% load static %}
+<script src="{% static 'js/processing/form_update.js' %}" defer></script>
+{% endblock %}

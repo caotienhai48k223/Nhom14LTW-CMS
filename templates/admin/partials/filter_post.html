@@ -1,0 +1,26 @@
+<div class="col-12 d-flex justify-content-end">
+  <form action="" class="col-8 d-flex gap-2 justify-content-end">
+    <div>
+      <label for="keyword">Từ khóa</label>
+      <input class="form-control" id="keyword" type="text" placeholder="Tìm kiếm" value="{{keyword}}" name="keyword" style="height: 35.35px;">
+    </div>
+    <div>
+      <label for="start-date">Topic</label><br>
+      <select select-status name="topic" class="form-select" style="cursor: pointer;" aria-label="Default select example">
+        <option value="" {% if not topic_req %}selected{% endif %}>Tất Cả</option>
+        {% for topic in topics %}
+        <option {% if topic.title == topic_req %}selected{% endif %}>{{topic.title}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div>
+      <label for="start-date">Ngày Bắt Đầu</label><br>
+      <input type="date" name="start-date" id="start-date" class="form-control" style="cursor: pointer;" value="{% if start_date %}{{ start_date }}{% endif %}">
+    </div>
+    <div>
+      <label for="end_date">Ngày Kết Thúc</label><br>
+      <input type="date" name="end-date" id="end_date" class="form-control" style="cursor: pointer;" value="{% if end_date %}{{ end_date }}{% endif %}">
+    </div>
+    <button type="submit" class="btn btn-dark mt-4">Lọc</button>
+  </form>
+</div>

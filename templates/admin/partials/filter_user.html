@@ -1,0 +1,29 @@
+<div class="col-12 d-flex justify-content-end">
+  <form action="" class="col-8 d-flex gap-2 justify-content-end">
+    <div>
+      <label for="keyword">Từ khóa</label>
+      <input class="form-control" id="keyword" type="text" placeholder="Tìm kiếm" value="{{keyword}}" name="keyword">
+    </div>
+    <div>
+      <label for="start-date">Giới tính</label><br>
+      <select select-status name="gender" class="form-select" style="cursor: pointer;">
+        <option {% if not gender %} selected {% endif %} value="">Tất Cả</option>
+        <option {% if gender == 'Ẩn' %} selected {% endif %}>Ẩn</option>
+        <option {% if gender == 'Nam' %} selected {% endif %}>Nam</option>
+        <option {% if gender == 'Nữ' %} selected {% endif %}>Nữ</option>
+      </select>
+    </div>
+    <div>
+      <label for="start-date">Độ tuổi</label><br>
+      <select select-status name="age-band" class="form-select" style="cursor: pointer;">
+        <option {% if not age_band %} selected {% endif %} value="">Tất Cả</option>
+        <option {% if age_band == 'Ẩn' %} selected {% endif %}>Ẩn</option>
+        <option {% if age_band == '18-30' %} selected {% endif %}>18-30</option>
+        <option {% if age_band == '31-45' %} selected {% endif %}>31-45</option>
+        <option {% if age_band == '46-65' %} selected {% endif %}>46-65</option>
+        <option {% if age_band == '65+' %} selected {% endif %}>65+</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-dark mt-4">Lọc</button>
+  </form>
+</div>

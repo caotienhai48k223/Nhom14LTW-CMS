@@ -1,0 +1,48 @@
+{% extends '../layouts/default.html' %}
+
+{% block main %}
+
+<div class="d-flex" style="justify-content: space-between;">
+  <form form-action-multi method="POST" class="d-flex gap-5" style="align-items: center;">
+    {% csrf_token %}
+    <input type="text" hidden ids name="post-ids">
+    <div>
+      <label for="">Tất cả</label> <br>
+      <input checkbox-all type="checkbox">
+    </div>
+    <div class="d-flex gap-2">
+      <select class="form-select" name="action">
+        <option selected value="">Chọn hành động</option>
+        {% if status == 'Chờ gửi' %}
+        <option value="send">Gửi bản nháp</option>
+        {% endif %}
+        <option value="delete">Xóa bản nháp</option>
+      </select>
+      <button btn-confirm type="button" style="width: 135px;" class="btn btn-info">Xác nhận</button>
+    </div>
+  </form>
+  <form action="" class="d-flex gap-2" style="align-items: center;">
+    <select class="form-select" name="status" style="height: 37.6px;">
+      <option {% if not status %} selected {% endif %} value="">Tất cả</option>
+      <option {% if status == 'Chờ gửi' %} selected {% endif %}>Chờ gửi</option>
+      <option {% if status == 'Từ chối' %} selected {% endif %}>Từ chối</option>
+    </select>
+    <button type="submit" class="btn btn-info" style="height: 37.6px;">Lọc</button>
+  </form>
+</div>
+
+
+{% for draft in drafts %}
+<input checkbox value="{{draft.id}}" type="checkbox">
+<a href="/processing/draft/{{draft.created_by}}/{{draft.slug}}/">{{draft.title}}</a><br>
+{{ draft.section.topic.title }} - {{ draft.section.title }} <br>
+{{ draft.status }} <br>
+<img src="{{draft.image.url}}" height="100px" alt="Ảnh bài viết"> <br>
+{{draft.body|safe}} 
+{% endfor %}
+{% endblock %}
+
+{% block js %}
+{% load static %}
+<script src="{% static 'js/processing/draft_list.js' %}" defer></script>
+{% endblock %}

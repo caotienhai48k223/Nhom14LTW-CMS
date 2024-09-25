@@ -1,0 +1,21 @@
+<div class="div-accept p-4 d-none">
+  <div class="container">
+    <div class="d-flex justify-content-end"><i class="fa-regular fa-circle-xmark"></i></div>
+    <br>
+    <h3 style="text-align: center;" class="text-light">Duyệt bản nháp từ phóng viên</h3>
+    <form class="form-accept container" method="POST">
+      {% csrf_token %}
+      <label for="" class="fw-semibold text-info">Chọn biên tập viên</label>
+      <select class="form-select" aria-label="Default select example" name="editor-id">
+        <option selected value="">Chọn người sửa</option>
+        {% for editor in editors %}
+        <option value="{{editor.id}}">{{editor.username}}</option>
+        {% endfor %}
+      </select>
+      <br><br>
+      {{ form_rq }}
+      <br><br>
+      <center><button btn-submit type="button" class="btn btn-success">Duyệt</button></center>
+    </form>
+  </div>
+</div>

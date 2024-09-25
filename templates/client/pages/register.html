@@ -1,0 +1,23 @@
+{% extends '../layouts/default.html' %}
+
+{% block main %}
+<div class="container">
+  <div class="row">
+    <center>
+      <div class="col-6">
+        <h4>Đăng Ký</h4>
+        <form action="/register/" method="POST">
+          {% csrf_token %}
+          {{ form_signup.as_p }}
+          <button type="submit" class="btn btn-dark">Đăng Ký</button>
+        </form>
+      </div>
+    </center>
+  </div>
+</div>
+{% endblock %}
+
+{% block js %}
+{% load static %}
+<script src="{% static 'js/client/register.js' %}" defer></script>
+{% endblock %}

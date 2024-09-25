@@ -1,0 +1,43 @@
+{% extends '../layouts/default.html' %}
+
+{% block main %}
+<div class="container">
+  <div class="row">
+    <div class="col-4">
+      <img src="{{user.profile.avt.url}}" width="100px" alt="Ảnh đại diện">
+      <h3>{{user.profile.nickname}}</h3>
+      {% if user.first_name and user.last_name %}
+      <p>{{user.first_name}} {{user.last_name}}</p>
+      <p>Giới tính: {{user.profile.gender}}</p>
+      {% endif %}
+      {% if not user.is_superuser %}
+      <p>Chức vụ: {{user.groups.first.name}} </p>
+      {% if request.user.is_superuser %} 
+      <button class="btn btn-info" btn-update-group><i class="fa-solid fa-pen-to-square"></i></button>
+      <form action="" method="POST" form-update-group class="d-none">
+        {% csrf_token %}
+        {{form_g}}
+        <button type="submit" class="btn btn-success">Cập nhật</button>
+      </form>
+      {% endif %}
+      {% endif %}
+      {% if user.profile.dob %}
+      <p>{{user.profile.dob}}</p>
+      {% endif %}
+      <p>{{user.profile.about}}</p>
+    </div>
+    <div class="col-8">
+      <h2>{{user.profile.nickname}}</h2>
+      {% if request.user == user %}
+      <a href="/update-profile/{{user.username}}" class="btn btn-outline-primary">Chỉnh sửa thông tin</a>
+      <a href="/enjoys/{{user.username}}" class="btn btn-outline-info">Đã lưu</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block js %}
+{% load static %}
+<script src="{% static 'js/client/account.js' %}" defer></script>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends '../layouts/default.html' %}
+
+{% block main %}
+<h1>Trung tâm xử lý bài viết</h1>
+<h3>Xin chào {{request.user.profile.nickname}} bạn đang có vài trò là {{request.user.groups.first.name}}</h3>
+{% if request.user.groups.first.name == 'Contributor' %}
+<a class="btn btn-outline-dark" href="/processing/create-draft/">Tạo bài viết </a>
+<a class="btn btn-outline-dark" href="/processing/drafts/{{request.user.username}}/">Danh sách bài viết của bạn</a>
+{% elif request.user.groups.first.name == 'Editor' %}
+<a class="btn btn-outline-dark" href="/processing/list-edit/">
+  Danh sách chỉnh sửa 
+  {% if list_edit_count > 0 %}
+  <span style="color: red;"><strong>{{ list_edit_count }}</strong></span>
+  {% endif %}
+</a>
+{% elif request.user.groups.first.name == 'Approver' %}
+<a href="/processing/create-section/" class="btn btn-outline-dark">Tạo danh mục bài đăng</a>
+<a class="btn btn-outline-dark" href="/processing/pending-list">
+  Danh sách chờ duyệt 
+  {% if pending_list_count > 0 %}
+  <span style="color: red;"><strong>{{ pending_list_count }}</strong></span>
+  {% endif %}
+</a>
+<a class="btn btn-outline-dark" href="/processing/confirmation-list/">
+  Danh sách chờ đăng 
+  {% if confirmation_list_count > 0 %}
+  <span style="color: red;"><strong>{{ confirmation_list_count }}</strong></span>
+  {% endif %}
+</a>
+{% endif %}
+{% endblock %}

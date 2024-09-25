@@ -1,0 +1,18 @@
+{% extends '../layouts/default.html' %}
+
+{% block main %}
+<h1>Danh sách chờ chỉnh sửa</h1>
+{% for post in posts %}
+<!-- <input checkbox value="{{post.id}}" type="checkbox"> -->
+<a href="/processing/post/{{post.id}}/">{{ post.title }}</a><br>
+{{ post.section }} - {{ post.status }}
+{{ post.body|safe }}
+<a href="/processing/update-post/{{post.id}}/" class="btn btn-info"><i class="fa-solid fa-pen-to-square"></i></a>
+<br>
+{% endfor %}
+{% endblock %}
+
+{% block js %}
+{% load static %}
+<script src="{% static 'js/processing/pending_list.js' %}" defer></script>
+{% endblock %}

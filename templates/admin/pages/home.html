@@ -1,0 +1,258 @@
+{% extends '../layouts/default.html' %}
+
+{% block main %}
+<h1>Bảng thống kê</h1>
+<div class="container">
+  <div class="d-flex row" style="justify-content: center;">
+    <div class="col-8 pe-3">
+      <canvas id="bar-chart"></canvas>
+      <h5 style="text-align: center;">Biểu đồ thanh lượt views của từng topic</h5>
+    </div>
+    <div class="col-4 ps-3">
+      <canvas id="pie-chart"></canvas>
+      <h5 style="text-align: center;">Biểu đồ tròn bài đăng của từng topic</h5>
+    </div>
+  </div>
+  <div class="d-flex row" style="justify-content: center;">
+    <div class="col-4 pe-3">
+      <canvas id="polar-chart"></canvas>
+      <h5 style="text-align: center;">Biểu đồ polar lượt quan người quan tâm của từng topic</h5>    
+    </div>
+    <div class="col-8 ps-3">
+      <canvas id="line-chart"></canvas>
+      <h5 style="text-align: center;">Biểu đồ đường số lượng post từng ngày</h5>
+    </div>
+  </div>
+  <div class="row d-flex" style="justify-content: center;">
+    <div class="col-8 ps-3">
+      <canvas id="bar-chart-2"></canvas>
+      <h5 style="text-align: center;">Biểu đồ cột số lượng user theo độ tuổi</h5>
+    </div>
+    <div class="col-4 pe-3">
+      <canvas id="pie-chart-2"></canvas>
+      <h5 style="text-align: center;">Biểu đồ tỉ lệ giới tính của user</h5>    
+    </div>
+  </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const df_topic = {{ df_topic|safe }}
+  const df_label_topic = {{ df_label_topic|safe }}
+  const df_cnt_topic = {{ df_cnt_topic|safe }}
+  const df_label_cnt_topic = {{ df_label_cnt_topic|safe }}
+  const df_comment = {{ df_comment|safe }}
+  const df_label_comment = {{ df_label_comment|safe }}
+  const df_enjoy = {{ df_enjoy|safe }}
+  const df_label_enjoy = {{ df_label_enjoy|safe }}
+  const df_ageband = {{ df_ageband|safe }}
+  const df_label_ageband = {{ df_label_ageband|safe }}
+  const df_gender = {{ df_gender|safe }}
+  const df_label_gender = {{ df_label_gender|safe }}
+  const df_post = {{ df_post|safe }}
+  const df_time = {{ df_time|safe }}
+  const df_user = {{ df_user|safe }}
+
+  let bg_1 = [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)'
+        ]
+  
+  let bg_2 = [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ]
+
+  const bar_chart = document.getElementById('bar-chart');
+  new Chart(bar_chart, {
+    type: 'bar',
+    data: {
+      labels: df_label_topic,
+      datasets: [{
+        label: 'lượt xem',
+        data: df_topic,
+        backgroundColor: bg_1,
+        borderColor: bg_2,
+        borderWidth: 1,
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+  const pie_chart = document.querySelector('#pie-chart')
+  new Chart(pie_chart, {
+    type: 'doughnut',
+    data: {
+      labels: df_label_cnt_topic,
+      datasets: [{
+        label: 'phần trăm',
+        data: df_cnt_topic,
+        backgroundColor: bg_1,
+        borderColor: bg_2,
+        borderWidth: 1,
+        hoverOffset: 3
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: function(tooltipItem) {
+              const dataset = tooltipItem.dataset.data;
+              const total = dataset.reduce((acc, value) => acc + value, 0);
+              const currentValue = dataset[tooltipItem.dataIndex];
+              const percentage = ((currentValue / total) * 100).toFixed(2);
+              return `${tooltipItem.label}: ${percentage}%`;
+            }
+          }
+        }
+      }
+    }
+  });
+
+
+  const line_chart = document.getElementById('line-chart');
+  new Chart(line_chart, {
+    data: {
+      labels: df_time,
+      datasets: [{
+        type: 'line',
+        label: 'bài đăng',
+        data: df_post,
+        backgroundColor: bg_1,
+        borderColor: bg_2,
+        borderWidth: 4,
+      }, {
+      type: 'bar',
+      label: 'người dùng',
+      data: df_user,
+      backgroundColor: bg_1,
+      borderColor: bg_2,
+      borderWidth: 1,
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+  
+
+  const polar_chart = document.querySelector('#polar-chart')
+  new Chart(polar_chart, {
+    type: 'polarArea',
+    data: {
+      labels: df_label_enjoy,
+      datasets: [{
+        label: 'phần trăm',
+        data: df_enjoy,
+        backgroundColor: bg_1,
+        borderColor: bg_2,
+        borderWidth: 1,
+        hoverOffset: 3
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: function(tooltipItem) {
+              const dataset = tooltipItem.dataset.data;
+              const total = dataset.reduce((acc, value) => acc + value, 0);
+              const currentValue = dataset[tooltipItem.dataIndex];
+              const percentage = ((currentValue / total) * 100).toFixed(2);
+              return `${tooltipItem.label}: ${percentage}%`;
+            }
+          }
+        }
+      }
+    }
+  });
+
+  const pie_chart_2 = document.querySelector('#pie-chart-2')
+  new Chart(pie_chart_2, {
+    type: 'pie',
+    data: {
+      labels: df_label_gender,
+      datasets: [{
+        label: 'phần trăm',
+        data: df_gender,
+        backgroundColor: bg_1,
+        borderColor: bg_2,
+        borderWidth: 1,
+        hoverOffset: 3
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: function(tooltipItem) {
+              const dataset = tooltipItem.dataset.data;
+              const total = dataset.reduce((acc, value) => acc + value, 0);
+              const currentValue = dataset[tooltipItem.dataIndex];
+              const percentage = ((currentValue / total) * 100).toFixed(2);
+              return `${tooltipItem.label}: ${percentage}%`;
+            }
+          }
+        }
+      }
+    }
+  });
+
+  const bar_chart_2 = document.getElementById('bar-chart-2');
+  new Chart(bar_chart_2, {
+    type: 'bar',
+    data: {
+      labels: df_label_ageband,
+      datasets: [{
+        label: 'người dùng',
+        data: df_ageband,
+        backgroundColor: bg_1,
+        borderColor: bg_2,
+        borderWidth: 1,
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
+{% endblock %}

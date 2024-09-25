@@ -1,0 +1,12 @@
+{% extends '../layouts/default.html' %}
+
+{% block main %}
+<h1>Quan tâm</h1>
+<br>
+{% for enjoy in enjoys %}
+<img style="width: 100px;" src="{{enjoy.post.image.url}}" alt=""><br>
+{{enjoy.post.topic}} <br>
+<a href="/post/{{enjoy.post.user.username}}/{{enjoy.post.slug}}/">{{enjoy.post.title}}</a>
+{{enjoy.post.body|safe}} <br>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,19 @@
+<div class="div-request p-4 d-none">
+  <div class="container">
+    <div class="d-flex justify-content-end"><i class="fa-regular fa-circle-xmark" id="close"></i></div>
+    <br>
+    <h3 style="text-align: center;" class="text-light">Yêu cầu biên tập viên sửa lại</h3>
+    <form class="form-request container" method="POST">
+      {% csrf_token %}
+      {{ form_rq }}
+      <br><br>
+      <center><button btn-cmt type="button" class="btn btn-success">Yêu cầu</button></center>
+    </form>
+  </div>
+</div>
+
+
+
+
+
+

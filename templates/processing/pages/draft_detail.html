@@ -1,0 +1,41 @@
+{% extends '../layouts/default.html' %}
+
+{% block main %}
+{{ draft.status }} <br>
+{{ draft.title }} <br>
+<img src="{{draft.image.url}}"  height="100px" alt="Ảnh bài báo">
+{{ draft.body|safe }}
+
+<div class="cua d-flex gap-1">
+  {% if draft.status == 'Chờ gửi' %}
+  <form form-send method="POST">
+    {% csrf_token %}
+    <input type="text" hidden name="send" value="true">
+    <button btn-send type="button" class="btn btn-success">Gửi bản nháp</button>
+  </form>
+  <a href="/processing/update-draft/{{draft.created_by}}/{{draft.slug}}/" class="btn btn-warning" title="Sửa bài viết">Sửa bản nháp</a>
+  <form form-delete method="POST">
+    {% csrf_token %}
+    <input type="text" hidden name="delete" value="true">
+    <button btn-delete type="button" class="btn btn-danger">Xóa bản nháp</button>
+  </form>
+  {% endif %}
+  {% if draft.status == 'Từ chối' %}
+  <form form-delete method="POST">
+    {% csrf_token %}
+    <input type="text" hidden name="delete" value="true">
+    <button btn-delete type="button" class="btn btn-danger">Xóa bản nháp</button>
+  </form>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block js %}
+{% load static %}
+<script src="{% static 'js/processing/draft_detail.js' %}" defer></script>
+{% endblock %}
+
+{% block css %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/processing/post_detail.css' %}">
+{% endblock %}

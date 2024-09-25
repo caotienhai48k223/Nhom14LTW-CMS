@@ -1,0 +1,22 @@
+{% extends '../layouts/default.html' %}
+
+{% block main %}
+<h1>Kết quả tìm kiếm của '{{keyword}}'</h1>
+<br>
+{% if users %}
+<h4>Người dùng</h4>
+{% for user in users %}
+  {{user.username}} - {{user.profile.nickname}}<br>
+{% endfor %}
+{% endif %}
+
+{% if posts %}
+<h4>Bài viết</h4>
+{% for post in posts %}
+<img style="width: 100px;" src="{{post.image.url}}" alt=""><br>
+{{post.topic}} <br>
+<a href="/post/{{post.user.username}}/{{post.slug}}/">{{post.title}}</a>
+{{post.body|safe}} <br>
+{% endfor %}
+{% endif %}
+{% endblock %}
